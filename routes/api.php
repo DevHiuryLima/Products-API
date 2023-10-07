@@ -19,11 +19,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::namespace('Api')->prefix('products')->group( function (){
-    Route::get('/', [ProductController::class, 'index']);
-    Route::get('/{id}', [ProductController::class, 'show']);
-    Route::post('/', [ProductController::class, 'save']);
-    Route::put('/', [ProductController::class, 'update']);
-    Route::patch('/', [ProductController::class, 'update']);
-    Route::delete('/{id}', [ProductController::class, 'delete']);
+Route::namespace('Api')->group( function (){
+
+    // Products route
+    Route::prefix('products')->group(function (){
+        Route::get('/{id}', [ProductController::class, 'show']);
+        Route::post('/', [ProductController::class, 'save']);
+        Route::put('/', [ProductController::class, 'update']);
+        Route::patch('/', [ProductController::class, 'update']);
+        Route::delete('/{id}', [ProductController::class, 'delete']);
+        Route::get('/', [ProductController::class, 'index']);
+    });
 });
