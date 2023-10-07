@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,8 @@ Route::namespace('Api')->group( function (){
         Route::delete('/{id}', [ProductController::class, 'delete']);
         Route::get('/', [ProductController::class, 'index']);
     });
+
 });
+
+Route::apiResource('/users', UserController::class);
+
