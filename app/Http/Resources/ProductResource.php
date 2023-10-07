@@ -36,10 +36,16 @@ class ProductResource extends JsonResource
 
 
 
-        
+
         // Em resumo, todas as três abordagens produzirão um resultado semelhante, que é transformar o modelo Product em
         // um array para ser retornado como resposta JSON. A escolha entre elas depende da sua preferência e dos
         // requisitos específicos do seu projeto. A segunda abordagem permite maior controle sobre quais campos são
         // incluídos no JSON, enquanto as outras duas são mais simples e menos verbosas.
     }
+
+    // Usando with para dado extra ele não exclui o wrap, por coonta desse dado extra.
+//    public function with($request)
+//    {
+//        return ['extra-single-data' => 'Another data!'];
+//    }
 }
