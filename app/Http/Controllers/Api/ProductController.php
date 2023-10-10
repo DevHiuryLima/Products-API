@@ -27,8 +27,8 @@ class ProductController extends Controller
             $expressions = explode(';', $request->get('conditions'));
 
             foreach ($expressions as $e) {
-                $exp = explode('=', $e);
-                $products = $products->where($exp[0], $exp[1]);
+                $exp = explode(':', $e);
+                $products = $products->where($exp[0], $exp[1], $exp[2]);
             }
         }
 
