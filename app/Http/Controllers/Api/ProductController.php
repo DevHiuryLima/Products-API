@@ -21,22 +21,21 @@ class ProductController extends Controller
     }
 
     public function index(Request $request) {
-        $products = $this->product;
+        $products = Product::query(); // Isso cria um Builder a partir do modelo
+        // Istância o repository.
+        $productRepository = new ProductRepository($products);
 
         if($request->has('conditions')) {
-            // Istância o repository e chama função para conditions.
-            $products = (new ProductRepository($products, $request))
-                            ->selectConditions($request->get('conditions'));
+            // Executa no repository a função para conditions
+            $productRepository->selectConditions($request->get('conditions'));
         }
 
         if($request->has('fields')) {
-            // Outra maneira de instanciar o repository.
-            $products = new ProductRepository($products, $request);
-            $products = $products->selectFilter($request->get('fields'));
+            $productRepository->selectFilter($request->get('fields'));
         }
 
         // return response()->json($products);
-        return new ProductCollection($products->paginate(10));
+        return new ProductCollection($productRepository->getResult()->paginate(10));
     }
 
     public function show($id) {
