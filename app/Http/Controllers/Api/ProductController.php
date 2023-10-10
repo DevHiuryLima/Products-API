@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Repository\ProductRepository;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -20,22 +21,19 @@ class ProductController extends Controller
     }
 
     public function index(Request $request) {
-
         $products = $this->product;
 
         if($request->has('conditions')) {
-            $expressions = explode(';', $request->get('conditions'));
-
-            foreach ($expressions as $e) {
-                $exp = explode(':', $e);
-                $products = $products->where($exp[0], $exp[1], $exp[2]);
-            }
+            // Istância o repository e chama função para conditions.
+            $products = (new ProductRepository($products, $request))
+                            ->selectConditions($request->get('conditions'));
         }
 
         if($request->has('fields')) {
-            $fields = $request->get('fields');
-            $products = $products->selectRaw($fields);
-        };
+            // Outra maneira de instanciar o repository.
+            $products = new ProductRepository($products, $request);
+            $products = $products->selectFilter($request->get('fields'));
+        }
 
         // return response()->json($products);
         return new ProductCollection($products->paginate(10));
