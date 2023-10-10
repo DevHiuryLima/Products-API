@@ -24,7 +24,7 @@ Route::namespace('Api')->group( function (){
 
     // Products route
     Route::prefix('products')->group(function (){
-        Route::get('/', [ProductController::class, 'index'])->middleware('auth.basic');
+        Route::get('/', [ProductController::class, 'index']); // ->middleware('auth.basic');
         Route::get('/{id}', [ProductController::class, 'show']);
         Route::post('/', [ProductController::class, 'save']);
         Route::put('/', [ProductController::class, 'update']);
